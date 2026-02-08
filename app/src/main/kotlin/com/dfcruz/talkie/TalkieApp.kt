@@ -12,6 +12,7 @@ class TalkieApp : Application() {
         startKoin {
             androidLogger()
             androidContext(this@TalkieApp)
+            modules(appModule)
         }
     }
 }
