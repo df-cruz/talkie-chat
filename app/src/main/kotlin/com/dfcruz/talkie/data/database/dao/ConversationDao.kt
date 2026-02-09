@@ -1,0 +1,36 @@
+package com.dfcruz.talkie.data.database.dao
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
+import androidx.room.Upsert
+import com.dfcruz.talkie.data.database.entity.ConversationEntity
+import kotlinx.coroutines.flow.Flow
+
+@Dao
+interface ConversationDao {
+
+    @Query("SELECT * FROM conversations")
+    fun getConversationsFlows(): Flow<List<ConversationEntity>>
+
+    @Query("SELECT * FROM conversations")
+    suspend fun getConversations(): List<ConversationEntity>
+
+    @Query("SELECT * FROM conversations WHERE id = :conversationId LIMIT 1")
+    suspend fun getConversation(conversationId: String): ConversationEntity?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(conversation: ConversationEntity)
+
+    @Upsert
+    suspend fun insert(conversations: List<ConversationEntity>)
+
+    @Update
+    suspend fun update(conversation: ConversationEntity)
+
+    @Query("DELETE FROM conversations WHERE id = :conversationId")
+    suspend fun delete(conversationId: String)
+
+}
