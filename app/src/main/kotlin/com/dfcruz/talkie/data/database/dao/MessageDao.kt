@@ -1,0 +1,36 @@
+package com.dfcruz.talkie.data.database.dao
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
+import androidx.room.Upsert
+import com.dfcruz.talkie.data.database.entity.MessageEntity
+import kotlinx.coroutines.flow.Flow
+
+@Dao
+interface MessageDao {
+
+    @Query("SELECT * FROM messages WHERE conversationId = :conversationId ORDER BY createdAt DESC")
+    fun getMessagesFlow(conversationId: String): Flow<List<MessageEntity>>
+
+    @Query("SELECT * FROM messages WHERE conversationId = :conversationId ORDER BY createdAt DESC")
+    suspend fun getMessages(conversationId: String): List<MessageEntity>
+
+    @Query("SELECT * FROM messages WHERE id = :messageId LIMIT 1")
+    suspend fun getMessage(messageId: String): MessageEntity?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(message: MessageEntity)
+
+    @Upsert
+    suspend fun insert(messages: List<MessageEntity>)
+
+    @Update
+    suspend fun update(message: MessageEntity)
+
+    @Query("DELETE FROM messages WHERE id = :messageId")
+    suspend fun delete(messageId: String)
+
+}
