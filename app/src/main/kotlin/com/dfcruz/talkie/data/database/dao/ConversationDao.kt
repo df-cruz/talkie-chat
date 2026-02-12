@@ -7,6 +7,7 @@ import androidx.room.Query
 import androidx.room.Update
 import androidx.room.Upsert
 import com.dfcruz.talkie.data.database.entity.ConversationEntity
+import com.dfcruz.talkie.data.database.entity.ConversationMemberEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -32,5 +33,11 @@ interface ConversationDao {
 
     @Query("DELETE FROM conversations WHERE id = :conversationId")
     suspend fun delete(conversationId: String)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addMember(member: ConversationMemberEntity)
+
+    @Query("DELETE FROM conversation_members WHERE conversationId = :conversationId AND userId = :userId")
+    suspend fun removeMember(conversationId: String, userId: String)
 
 }

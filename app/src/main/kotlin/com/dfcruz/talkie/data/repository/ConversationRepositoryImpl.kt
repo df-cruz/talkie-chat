@@ -1,6 +1,7 @@
 package com.dfcruz.talkie.data.repository
 
 import com.dfcruz.talkie.data.database.dao.ConversationDao
+import com.dfcruz.talkie.data.database.entity.ConversationMemberEntity
 import com.dfcruz.talkie.data.mapping.toDomain
 import com.dfcruz.talkie.data.mapping.toEntity
 import com.dfcruz.talkie.domain.model.Conversation
@@ -33,6 +34,14 @@ class ConversationRepositoryImpl(
 
     override suspend fun deleteConversation(conversationId: String) {
         conversationDao.delete(conversationId)
+    }
+
+    override suspend fun addUserToConversation(conversationId: String, userId: String) {
+        conversationDao.addMember(ConversationMemberEntity(conversationId, userId))
+    }
+
+    override suspend fun removeUserFromConversation(conversationId: String, userId: String) {
+        conversationDao.removeMember(conversationId, userId)
     }
 
 }
