@@ -15,8 +15,14 @@ import java.util.Date
             childColumns = ["conversationId"],
             onDelete = ForeignKey.CASCADE
         ),
+        ForeignKey(
+            entity = UserEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["userId"],
+            onDelete = ForeignKey.SET_NULL
+        )
     ],
-    indices = [Index("conversationId")]
+    indices = [Index("conversationId"), Index("userId")]
 )
 data class MessageEntity(
     @PrimaryKey val id: String,
