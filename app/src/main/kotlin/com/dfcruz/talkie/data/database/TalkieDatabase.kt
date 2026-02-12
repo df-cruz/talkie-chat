@@ -6,8 +6,10 @@ import androidx.room.TypeConverters
 import com.dfcruz.talkie.data.database.converter.DateConverter
 import com.dfcruz.talkie.data.database.dao.ConversationDao
 import com.dfcruz.talkie.data.database.dao.MessageDao
+import com.dfcruz.talkie.data.database.dao.UserDao
 import com.dfcruz.talkie.data.database.entity.ConversationEntity
 import com.dfcruz.talkie.data.database.entity.MessageEntity
+import com.dfcruz.talkie.data.database.entity.UserEntity
 
 const val DATABASE_NAME = "talkie-db"
 
@@ -15,6 +17,7 @@ const val DATABASE_NAME = "talkie-db"
     entities = [
         ConversationEntity::class,
         MessageEntity::class,
+        UserEntity::class,
     ],
     version = 1,
 )
@@ -22,4 +25,5 @@ const val DATABASE_NAME = "talkie-db"
 abstract class TalkieDatabase : RoomDatabase() {
     abstract fun conversationDao(): ConversationDao
     abstract fun messageDao(): MessageDao
+    abstract fun userDao(): UserDao
 }
