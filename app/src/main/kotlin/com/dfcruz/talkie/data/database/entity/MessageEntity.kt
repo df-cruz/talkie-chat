@@ -18,11 +18,11 @@ import java.util.Date
         ForeignKey(
             entity = UserEntity::class,
             parentColumns = ["id"],
-            childColumns = ["userId"],
+            childColumns = ["authorId"],
             onDelete = ForeignKey.SET_NULL
         )
     ],
-    indices = [Index("conversationId"), Index("userId")]
+    indices = [Index("conversationId"), Index("authorId")]
 )
 data class MessageEntity(
     @PrimaryKey val id: String,
