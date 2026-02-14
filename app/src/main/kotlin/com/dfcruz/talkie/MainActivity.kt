@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import com.dfcruz.talkie.ui.feature.conversationslist.ConversationListScreen
+import com.dfcruz.talkie.ui.feature.chat.ChatScreen
 import com.dfcruz.talkie.ui.theme.TalkieTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             TalkieTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    ConversationListScreen(
+                    ChatScreen(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
