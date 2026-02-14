@@ -29,7 +29,7 @@ fun ConversationListScreen(
 @Composable
 fun ConversationItem(
     modifier: Modifier = Modifier,
-    conversation: Conversation,
+    conversation: ConversationUiModel,
 ) {
     Column(
         modifier = modifier
