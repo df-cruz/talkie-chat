@@ -15,12 +15,10 @@ import org.koin.core.parameter.parametersOf
 
 @Composable
 fun TalkieNavDisplay(
-    modifier: Modifier = Modifier,
 ) {
     val backStack = rememberNavBackStack(ConversationListNavRoute)
 
     NavDisplay(
-        modifier = modifier,
         backStack = backStack,
         onBack = { backStack.removeLastOrNull() },
         entryProvider = entryProvider {
@@ -30,9 +28,10 @@ fun TalkieNavDisplay(
                 })
             }
             entry<ConversationListNavRoute> {
-                ConversationListScreen { id ->
-                    backStack.add(ChatNavRoute(id))
-                }
+                ConversationListScreen(
+                    onClickConversation = { id -> backStack.add(ChatNavRoute(id)) },
+                    onCreateConversation = {}
+                )
             }
         }
     )
