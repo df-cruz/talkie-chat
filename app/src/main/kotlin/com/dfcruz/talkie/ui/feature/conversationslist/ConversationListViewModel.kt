@@ -12,19 +12,20 @@ class ConversationListViewModel(
     conversationRepository: ConversationRepository,
 ) : ViewModel() {
 
-    val uiState: StateFlow<List<ConversationUiModel>> = conversationRepository.getConversationsFlow()
-        .map {
-            it.map { conversation ->
-                ConversationUiModel(
-                    id = conversation.id.toIntOrNull() ?: 0,
-                    title = conversation.name,
-                )
+    val uiState: StateFlow<List<ConversationUiModel>> =
+        conversationRepository.getConversationsFlow()
+            .map {
+                it.map { conversation ->
+                    ConversationUiModel(
+                        id = conversation.id,
+                        title = conversation.name,
+                    )
+                }
             }
-        }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.Eagerly,
-            initialValue = listOf()
-        )
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.Eagerly,
+                initialValue = listOf()
+            )
 
 }

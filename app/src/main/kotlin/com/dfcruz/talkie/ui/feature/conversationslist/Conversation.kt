@@ -4,7 +4,7 @@ import androidx.compose.runtime.Immutable
 
 @Immutable
 data class ConversationUiModel(
-    val id: Int,
+    val id: String,
     val title: String? = null,
     val subtitle: String? = null
 )

@@ -1,5 +1,6 @@
 package com.dfcruz.talkie.ui.feature.conversationslist
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,12 +17,18 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun ConversationListScreen(
     modifier: Modifier = Modifier,
-    viewModel: ConversationListViewModel = koinViewModel()
+    viewModel: ConversationListViewModel = koinViewModel(),
+    onClick: (String) -> Unit
 ) {
     val conversations = viewModel.uiState.collectAsStateWithLifecycle()
     LazyColumn(modifier = modifier.fillMaxSize()) {
         items(conversations.value, { it.id }) {
-            ConversationItem(conversation = it)
+            ConversationItem(
+                modifier = Modifier.clickable {
+                    onClick(it.id)
+                },
+                conversation = it,
+            )
         }
     }
 }
