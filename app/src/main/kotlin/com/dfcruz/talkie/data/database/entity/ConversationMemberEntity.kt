@@ -12,16 +12,18 @@ import androidx.room.Index
             entity = ConversationEntity::class,
             parentColumns = ["id"],
             childColumns = ["conversationId"],
-            onDelete = ForeignKey.CASCADE
+            onDelete = ForeignKey.CASCADE,
+            deferred = true,
         ),
         ForeignKey(
             entity = UserEntity::class,
             parentColumns = ["id"],
             childColumns = ["userId"],
-            onDelete = ForeignKey.CASCADE
+            onDelete = ForeignKey.CASCADE,
+            deferred = true,
         )
     ],
-    indices = [Index("conversationId"), Index("userId")]
+    indices = [Index("userId")]
 )
 data class ConversationMemberEntity(
     val conversationId: String,

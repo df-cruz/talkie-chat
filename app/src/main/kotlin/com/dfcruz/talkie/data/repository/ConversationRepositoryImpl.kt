@@ -24,8 +24,15 @@ class ConversationRepositoryImpl(
         return conversationDao.getConversation(conversationId)?.toDomain()
     }
 
-    override suspend fun createConversation(conversation: Conversation) {
-        conversationDao.insert(conversation.toEntity())
+    override suspend fun createConversation(conversation: Conversation): Conversation? {
+        val members = conversation.members.map {
+            ConversationMemberEntity(
+                conversationId = conversation.id,
+                userId = it.id,
+            )
+        }
+        conversationDao.createConversationWithMembers(conversation.toEntity(), members)
+        return getConversation(conversation.id)
     }
 
     override suspend fun updateConversation(conversation: Conversation) {

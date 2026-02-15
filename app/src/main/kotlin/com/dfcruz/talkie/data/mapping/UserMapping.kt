@@ -7,6 +7,7 @@ fun UserEntity.toDomain(): User {
     return User(
         id = this.id,
         name = this.name,
+        contact = this.contact,
         avatar = this.avatar,
         isOnline = this.online,
         createdAt = this.createdAt,
@@ -19,6 +20,7 @@ fun User.toEntity(): UserEntity {
     return UserEntity(
         id = this.id,
         name = this.name,
+        contact = this.contact,
         avatar = this.avatar,
         online = this.isOnline,
         createdAt = this.createdAt,

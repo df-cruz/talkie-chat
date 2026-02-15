@@ -13,7 +13,8 @@ import java.util.Date
             entity = UserEntity::class,
             parentColumns = ["id"],
             childColumns = ["ownerId"],
-            onDelete = ForeignKey.SET_NULL
+            onDelete = ForeignKey.SET_NULL,
+            deferred = true,
         )
     ],
     indices = [Index("ownerId")]

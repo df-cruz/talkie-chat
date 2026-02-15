@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -22,7 +23,8 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun ChatScreen(
     modifier: Modifier = Modifier,
-    viewModel: ChatScreenViewModel = koinViewModel()
+    viewModel: ChatScreenViewModel = koinViewModel(),
+    onClose: () -> Unit,
 ) {
     val messages = viewModel.messages.collectAsStateWithLifecycle()
     Scaffold(
@@ -32,10 +34,12 @@ fun ChatScreen(
                     Text("Conversation")
                 },
                 navigationIcon = {
-                    Icon(
-                        painter = painterResource(R.drawable.arrow_back),
-                        contentDescription = null
-                    )
+                    IconButton(onClick = onClose) {
+                        Icon(
+                            painter = painterResource(R.drawable.arrow_back),
+                            contentDescription = null
+                        )
+                    }
                 }
             )
         }

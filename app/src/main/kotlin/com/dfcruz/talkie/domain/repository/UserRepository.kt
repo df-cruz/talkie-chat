@@ -4,7 +4,8 @@ import com.dfcruz.talkie.domain.model.User
 
 interface UserRepository {
     suspend fun getUser(userId: String): User?
-    suspend fun addUser(user: User)
+    suspend fun getUserByContact(contact: String): User?
+    suspend fun addUser(user: User): User
     suspend fun updateUser(user: User)
     suspend fun removeUser(userId: String)
 }

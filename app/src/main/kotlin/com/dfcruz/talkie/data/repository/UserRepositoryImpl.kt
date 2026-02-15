@@ -14,8 +14,13 @@ class UserRepositoryImpl(
         return userDao.getUser(userId)?.toDomain()
     }
 
-    override suspend fun addUser(user: User) {
+    override suspend fun getUserByContact(contact: String): User? {
+        return userDao.getUserByContact(contact)?.toDomain()
+    }
+
+    override suspend fun addUser(user: User): User {
         userDao.insert(user.toEntity())
+        return user
     }
 
     override suspend fun updateUser(user: User) {

@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import androidx.room.Upsert
 import com.dfcruz.talkie.data.database.entity.ConversationEntity
@@ -37,7 +38,19 @@ interface ConversationDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addMember(member: ConversationMemberEntity)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addMembers(members: List<ConversationMemberEntity>)
+
     @Query("DELETE FROM conversation_members WHERE conversationId = :conversationId AND userId = :userId")
     suspend fun removeMember(conversationId: String, userId: String)
+
+    @Transaction
+    suspend fun createConversationWithMembers(
+        conversation: ConversationEntity,
+        members: List<ConversationMemberEntity>
+    ) {
+        insert(conversation)
+        addMembers(members)
+    }
 
 }
