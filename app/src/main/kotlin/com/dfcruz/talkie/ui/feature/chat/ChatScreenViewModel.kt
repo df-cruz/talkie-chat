@@ -10,10 +10,11 @@ import kotlinx.coroutines.flow.stateIn
 
 class ChatScreenViewModel(
     messagesRepository: MessageRepository,
+    conversationId: String,
 ) : ViewModel() {
 
     val messages: StateFlow<List<MessageUiModel>> =
-        messagesRepository.getMessagesFlow("")
+        messagesRepository.getMessagesFlow(conversationId)
             .map {
                 it.map { message ->
                     MessageUiModel(id = message.id, message = message.text)

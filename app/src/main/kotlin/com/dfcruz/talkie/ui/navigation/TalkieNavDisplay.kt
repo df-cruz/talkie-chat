@@ -31,7 +31,7 @@ fun TalkieNavDisplay(
         entryProvider = entryProvider {
             entry<ChatNavRoute> { key ->
                 val viewModel = koinViewModel<ChatScreenViewModel> {
-                    parametersOf(key)
+                    parametersOf(key.conversationId)
                 }
                 ChatScreen(viewModel = viewModel) {
                     backStack.removeLastOrNull()
