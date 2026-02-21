@@ -13,7 +13,7 @@ interface UserDao {
     @Query("SELECT * FROM users WHERE id = :userId LIMIT 1")
     suspend fun getUser(userId: String): UserEntity?
 
-    @Query("SELECT * FROM users WHERE id = :contact LIMIT 1")
+    @Query("SELECT * FROM users WHERE contact = :contact LIMIT 1")
     suspend fun getUserByContact(contact: String): UserEntity?
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
