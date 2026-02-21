@@ -32,10 +32,10 @@ fun ChatScreen(
     viewModel: ChatScreenViewModel = koinViewModel(),
     onClose: () -> Unit,
 ) {
-    val messages = viewModel.messages.collectAsStateWithLifecycle()
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     ChatScreen(
         modifier = modifier,
-        messages = messages.value,
+        state = uiState.value,
         onClose = onClose,
         onSendMessage = { viewModel.sendMessage(it) }
     )
@@ -45,7 +45,7 @@ fun ChatScreen(
 @Composable
 private fun ChatScreen(
     modifier: Modifier = Modifier,
-    messages: List<MessageUiModel>,
+    state: ChatScreenUiState,
     onClose: () -> Unit,
     onSendMessage: (String) -> Unit,
 ) {
@@ -54,7 +54,7 @@ private fun ChatScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text("Conversation")
+                    Text(state.conversationName)
                 },
                 navigationIcon = {
                     IconButton(onClick = onClose) {
@@ -75,7 +75,7 @@ private fun ChatScreen(
         ) {
             MessagesList(
                 modifier = Modifier.weight(1f),
-                messages = messages,
+                messages = state.messages,
             )
             MessageComposer(onSendMessage = onSendMessage)
         }
@@ -114,10 +114,13 @@ private fun ChatMessage(
 fun ChatScreenPreview() {
     MaterialTheme {
         ChatScreen(
-            messages = listOf(
-                MessageUiModel("1", "Hello"),
-                MessageUiModel("2", "Ping")
-            ).reversed(),
+            state = ChatScreenUiState(
+                conversationName = "Conversation",
+                messages = listOf(
+                    MessageUiModel("1", "Ping"),
+                    MessageUiModel("2", "Pong")
+                ).reversed()
+            ),
             onClose = {},
             onSendMessage = {},
         )
