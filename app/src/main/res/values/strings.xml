@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Talkie</string>
+    <string name="typing_conversation_label">Typing...</string>
 </resources>
