@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dfcruz.talkie.R
+import com.dfcruz.talkie.ui.theme.TalkieTheme
 import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -112,7 +113,7 @@ private fun ChatMessage(
 @Composable
 @Preview
 fun ChatScreenPreview() {
-    MaterialTheme {
+    TalkieTheme {
         ChatScreen(
             state = ChatScreenUiState(
                 conversationName = "Conversation",

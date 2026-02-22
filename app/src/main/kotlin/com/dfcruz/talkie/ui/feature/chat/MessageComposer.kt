@@ -9,7 +9,6 @@ import androidx.compose.foundation.text.input.clearText
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -19,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dfcruz.talkie.R
+import com.dfcruz.talkie.ui.theme.TalkieTheme
 
 @Composable
 fun MessageComposer(
@@ -61,7 +61,7 @@ fun MessageComposer(
 @Preview
 @Composable
 fun MessageComposerPreview() {
-    MaterialTheme {
+    TalkieTheme {
         MessageComposer {}
     }
 }
