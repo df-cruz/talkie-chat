@@ -1,4 +1,4 @@
-package com.dfcruz.talkie.ui.feature.chat
+package com.dfcruz.talkie.ui.feature.chat.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn

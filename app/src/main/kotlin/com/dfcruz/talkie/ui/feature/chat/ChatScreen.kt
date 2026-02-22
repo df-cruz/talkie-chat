@@ -1,7 +1,7 @@
 package com.dfcruz.talkie.ui.feature.chat
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -23,6 +22,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dfcruz.talkie.R
+import com.dfcruz.talkie.ui.feature.chat.component.MessageComposer
+import com.dfcruz.talkie.ui.feature.chat.component.MessageRow
+import com.dfcruz.talkie.ui.feature.chat.model.Author
+import com.dfcruz.talkie.ui.feature.chat.model.MessageAuthor
+import com.dfcruz.talkie.ui.feature.chat.model.MessageContent
+import com.dfcruz.talkie.ui.feature.chat.model.MessageGroupPosition
+import com.dfcruz.talkie.ui.feature.chat.model.MessageUiModel
 import com.dfcruz.talkie.ui.theme.TalkieTheme
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -91,22 +97,11 @@ private fun MessagesList(
     LazyColumn(
         modifier = modifier.fillMaxWidth(),
         reverseLayout = true,
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        items(messages, { it.id }) {
-            ChatMessage(message = it.message)
+        items(messages, { it.id }) { message ->
+            MessageRow(message = message)
         }
-    }
-}
-
-@Composable
-private fun ChatMessage(
-    modifier: Modifier = Modifier,
-    message: String,
-) {
-    Row(
-        modifier = modifier.padding(vertical = 8.dp, horizontal = 16.dp),
-    ) {
-        Text(message)
     }
 }
 
@@ -118,8 +113,21 @@ fun ChatScreenPreview() {
             state = ChatScreenUiState(
                 conversationName = "Conversation",
                 messages = listOf(
-                    MessageUiModel("1", "Ping"),
-                    MessageUiModel("2", "Pong")
+                    MessageUiModel(
+                        id = "1",
+                        content = MessageContent.Text("Morning! Are you coming to the team lunch? 🍜"),
+                        createdAt = "11:02",
+                        author = MessageAuthor.External(Author(id = "u1", name = "Mia")),
+                        groupPosition = MessageGroupPosition.Last(0),
+                    ),
+                    MessageUiModel(
+                        id = "2",
+                        content = MessageContent.Text("Yes! Just need to wrap up a PR first"),
+                        createdAt = "11:05",
+                        author = MessageAuthor.CurrentUser,
+                        groupPosition = MessageGroupPosition.Last(0),
+
+                        )
                 ).reversed()
             ),
             onClose = {},

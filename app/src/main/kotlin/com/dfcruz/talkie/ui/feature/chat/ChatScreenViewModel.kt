@@ -8,6 +8,11 @@ import com.dfcruz.talkie.domain.model.Message
 import com.dfcruz.talkie.domain.repository.ConversationRepository
 import com.dfcruz.talkie.domain.repository.MessageRepository
 import com.dfcruz.talkie.domain.usecase.GetCurrentUserUseCase
+import com.dfcruz.talkie.ui.feature.chat.model.MessageAuthor
+import com.dfcruz.talkie.ui.feature.chat.model.MessageContent
+import com.dfcruz.talkie.ui.feature.chat.model.MessageGroupPosition
+import com.dfcruz.talkie.ui.feature.chat.model.MessageUiModel
+import com.dfcruz.talkie.util.date.DateFormatPatterns
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -18,7 +23,9 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 import java.util.UUID
 
 class ChatScreenViewModel(
@@ -27,6 +34,8 @@ class ChatScreenViewModel(
     private val getCurrentUserUseCase: GetCurrentUserUseCase,
     private val conversationRepository: ConversationRepository,
 ) : ViewModel() {
+
+    private val formatter = SimpleDateFormat(DateFormatPatterns.SHORT_TIME, Locale.getDefault())
 
     private var sendMessageJob: Job? = null
 
@@ -57,7 +66,15 @@ class ChatScreenViewModel(
         return messagesRepository.getMessagesFlow(conversationId)
             .map {
                 it.map { message ->
-                    MessageUiModel(id = message.id, message = message.text)
+                    MessageUiModel(
+                        id = message.id,
+                        content = MessageContent.Text(message.text),
+                        createdAt = message.createdAt?.let { date ->
+                            formatter.format(date)
+                        }.orEmpty(),
+                        author = MessageAuthor.CurrentUser,
+                        groupPosition = MessageGroupPosition.First
+                    )
                 }
             }
     }
