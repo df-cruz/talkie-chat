@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     implementation(libs.kotlinx.serialization.core)
+    implementation(libs.coil)
 
     testImplementation(libs.junit)
 
