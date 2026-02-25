@@ -1,11 +1,12 @@
 package com.dfcruz.talkie.ui.feature.createconversation
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -19,11 +20,17 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dfcruz.talkie.R
+import com.dfcruz.talkie.ui.component.Avatar
+import com.dfcruz.talkie.ui.component.AvatarSize
+import com.dfcruz.talkie.ui.theme.TalkieTheme
 import org.koin.compose.viewmodel.koinViewModel
 
 
@@ -76,7 +83,7 @@ fun CreateConversationScreen(
                 .fillMaxSize()
         ) {
             items(messages.value, { it.id }) {
-                ContactItem(name = it.name, contact = it.contact) {
+                ContactItem(name = it.name) {
                     viewModel.createConversation(it.name, it.contact)
                 }
             }
@@ -88,18 +95,35 @@ fun CreateConversationScreen(
 private fun ContactItem(
     modifier: Modifier = Modifier,
     name: String,
-    contact: String,
     onClick: () -> Unit,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
-            .padding(vertical = 8.dp, horizontal = 16.dp)
+            .padding(vertical = 8.dp, horizontal = 16.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Column {
-            Text(name)
-            Text(contact)
-        }
+        Avatar(
+            name = name,
+            size = AvatarSize.Medium,
+        )
+
+        Spacer(Modifier.width(12.dp))
+
+        Text(
+            text = name,
+            style = TalkieTheme.typography.titleMedium,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
+    }
+}
+
+@Composable
+@Preview(showBackground = true)
+private fun ContactItemPreview() {
+    TalkieTheme {
+        ContactItem(name = "John Doe") { }
     }
 }
