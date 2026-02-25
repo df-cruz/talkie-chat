@@ -20,6 +20,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.dfcruz.talkie.R
+import com.dfcruz.talkie.ui.component.Avatar
+import com.dfcruz.talkie.ui.component.AvatarSize
 import com.dfcruz.talkie.ui.feature.conversationslist.model.ConversationSubtitle
 import com.dfcruz.talkie.ui.feature.conversationslist.model.ConversationUiModel
 import com.dfcruz.talkie.ui.feature.conversationslist.model.UnreadState
@@ -36,6 +38,13 @@ fun ConversationItem(
             .fillMaxWidth()
             .padding(vertical = 8.dp, horizontal = 16.dp),
     ) {
+        Avatar(
+            name = conversation.title,
+            size = AvatarSize.Medium,
+        )
+
+        Spacer(Modifier.width(12.dp))
+
         ConversationItemContent(
             modifier = Modifier.weight(1f),
             title = conversation.title,
@@ -82,13 +91,20 @@ private fun ConversationItemSubtitle(
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
         )
+
         ConversationSubtitle.Typing -> Text(
             text = stringResource(R.string.typing_conversation_label),
             style = TalkieTheme.typography.bodyMedium,
             color = TalkieTheme.colors.primary,
             maxLines = 1,
         )
-        null -> Unit
+
+        null -> Text(
+            text = "",
+            style = TalkieTheme.typography.bodyMedium,
+            color = TalkieTheme.colors.primary,
+            maxLines = 1,
+        )
     }
 }
 
