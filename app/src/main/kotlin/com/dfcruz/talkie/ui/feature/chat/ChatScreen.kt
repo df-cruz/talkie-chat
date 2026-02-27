@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -16,6 +17,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -57,6 +59,7 @@ private fun ChatScreen(
     onSendMessage: (String) -> Unit,
 ) {
     Scaffold(
+        modifier = modifier,
         contentWindowInsets = WindowInsets(0),
         topBar = {
             TopAppBar(
@@ -75,7 +78,7 @@ private fun ChatScreen(
         }
     ) { padding ->
         Column(
-            modifier = modifier
+            modifier = Modifier
                 .padding(padding)
                 .navigationBarsPadding()
                 .imePadding(),
@@ -94,13 +97,21 @@ private fun MessagesList(
     modifier: Modifier = Modifier,
     messages: List<MessageUiModel>,
 ) {
+    val listState = rememberLazyListState()
+
+    LaunchedEffect(messages.size) {
+        // TODO: temporary scroll
+        listState.animateScrollToItem(0)
+    }
+
     LazyColumn(
+        state = listState,
         modifier = modifier.fillMaxWidth(),
         reverseLayout = true,
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
     ) {
         items(messages, { it.id }) { message ->
-            MessageRow(message = message)
+            MessageRow(Modifier.animateItem(), message = message)
         }
     }
 }
