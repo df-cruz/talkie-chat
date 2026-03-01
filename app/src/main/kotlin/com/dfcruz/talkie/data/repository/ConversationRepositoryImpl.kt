@@ -25,7 +25,7 @@ class ConversationRepositoryImpl(
     }
 
     override suspend fun createConversation(conversation: Conversation): Conversation? {
-        val members = conversation.members.map {
+        val members = conversation.participants.map {
             ConversationMemberEntity(
                 conversationId = conversation.id,
                 userId = it.id,

@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import java.util.Date
+import kotlin.time.Instant
 
 @Entity(
     tableName = "messages",
@@ -18,19 +18,20 @@ import java.util.Date
         ForeignKey(
             entity = UserEntity::class,
             parentColumns = ["id"],
-            childColumns = ["authorId"],
+            childColumns = ["senderId"],
             onDelete = ForeignKey.SET_NULL
         )
     ],
-    indices = [Index("conversationId"), Index("authorId")]
+    indices = [Index("conversationId"), Index("senderId")]
 )
 data class MessageEntity(
     @PrimaryKey val id: String,
     val conversationId: String,
-    val authorId: String?,
-    val text: String,
-    val createdAt: Date? = null,
-    val updatedAt: Date? = null,
-    val deletedAt: Date? = null,
-    val silent: Boolean = false
+    val senderId: String,
+    val type: MessageType,
+    val text: String? = null,
+    val createdAt: Instant,
+    val serverCreatedAt: Instant? = null,
+    val updatedAt: Instant? = null,
+    val deletedAt: Instant? = null,
 )

@@ -5,6 +5,7 @@ import com.dfcruz.talkie.domain.model.User
 import com.dfcruz.talkie.domain.repository.ConversationRepository
 import com.dfcruz.talkie.domain.repository.UserRepository
 import java.util.UUID
+import kotlin.time.Clock
 
 class CreateConversationUseCase(
     private val conversationRepository: ConversationRepository,
@@ -23,7 +24,8 @@ class CreateConversationUseCase(
                 User(
                     id = UUID.randomUUID().toString(),
                     name = contactName,
-                    contact = contact
+                    phoneNumber = contact,
+                    createdAt = Clock.System.now()
                 )
             )
 
@@ -36,7 +38,8 @@ class CreateConversationUseCase(
                     id = conversationId,
                     name = contactName,
                     ownerId = currentUser.id,
-                    members = listOf(currentUser, directUser)
+                    participants = listOf(currentUser, directUser),
+                    createdAt = Clock.System.now()
                 )
             )
     }

@@ -2,16 +2,17 @@ package com.dfcruz.talkie.data.database.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.Date
+import kotlin.time.Instant
 
 @Entity(tableName = "users")
 data class UserEntity(
     @PrimaryKey val id: String,
     val name: String,
-    val contact: String,
-    val avatar: String = "",
-    val online: Boolean = false,
-    val createdAt: Date? = null,
-    val updatedAt: Date? = null,
-    val lastSeenAt: Date? = null
+    val phoneNumber: String,
+    val avatarUrl: String? = null,
+    val isOnline: Boolean = false,
+    val createdAt: Instant,
+    val serverCreatedAt: Instant? = null,
+    val updatedAt: Instant? = null,
+    val lastSeenAt: Instant? = null
 )

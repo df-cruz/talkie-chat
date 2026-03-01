@@ -19,7 +19,7 @@ class ConversationListViewModel(
                 it.map { conversation ->
                     ConversationUiModel(
                         id = conversation.id,
-                        title = conversation.name,
+                        title = conversation.name.orEmpty(),
                     )
                 }
             }

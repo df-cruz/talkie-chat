@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dfcruz.talkie.domain.model.Conversation
 import com.dfcruz.talkie.domain.model.Message
+import com.dfcruz.talkie.domain.model.MessageType
 import com.dfcruz.talkie.domain.repository.ConversationRepository
 import com.dfcruz.talkie.domain.repository.MessageRepository
 import com.dfcruz.talkie.domain.usecase.GetCurrentUserUseCase
@@ -24,9 +25,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.Locale
 import java.util.UUID
+import kotlin.time.Clock
 
 class ChatScreenViewModel(
     private val messagesRepository: MessageRepository,
@@ -45,7 +46,7 @@ class ChatScreenViewModel(
     ) { messages, conversation ->
         ChatScreenUiState(
             messages = messages,
-            conversationName = conversation?.name.orEmpty(),
+            conversationName = conversation?.getConversationName().orEmpty(),
         )
     }
         .catch { e ->
@@ -68,10 +69,8 @@ class ChatScreenViewModel(
                 it.map { message ->
                     MessageUiModel(
                         id = message.id,
-                        content = MessageContent.Text(message.text),
-                        createdAt = message.createdAt?.let { date ->
-                            formatter.format(date)
-                        }.orEmpty(),
+                        content = MessageContent.Text(message.text.orEmpty()),
+                        createdAt = formatter.format(message.createdAt),
                         author = MessageAuthor.CurrentUser,
                         groupPosition = MessageGroupPosition.First
                     )
@@ -86,10 +85,11 @@ class ChatScreenViewModel(
             messagesRepository.sendMessage(
                 Message(
                     id = UUID.randomUUID().toString(),
-                    authorId = getCurrentUserUseCase().id,
+                    senderId = getCurrentUserUseCase().id,
+                    type = MessageType.TEXT,
                     text = message,
                     conversationId = conversationId,
-                    createdAt = Date()
+                    createdAt = Clock.System.now(),
                 )
             )
         }

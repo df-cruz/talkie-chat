@@ -6,9 +6,9 @@ import com.dfcruz.talkie.domain.model.Conversation
 fun ConversationEntity.toDomain(): Conversation {
     return Conversation(
         id = this.id,
-        ownerId = this.ownerId.orEmpty(),
+        ownerId = this.ownerId,
         avatarUrl = this.avatar.orEmpty(),
-        name = this.name.orEmpty(),
+        name = this.name,
         createdAt = this.createdAt,
         updatedAt = this.updatedAt,
         deletedAt = this.deletedAt

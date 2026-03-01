@@ -15,7 +15,7 @@ class UserRepositoryImpl(
     }
 
     override suspend fun getUserByContact(contact: String): User? {
-        return userDao.getUserByContact(contact)?.toDomain()
+        return userDao.getUserByPhoneNumber(contact)?.toDomain()
     }
 
     override suspend fun addUser(user: User): User {

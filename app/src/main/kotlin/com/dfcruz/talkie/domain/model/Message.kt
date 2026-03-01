@@ -1,14 +1,14 @@
 package com.dfcruz.talkie.domain.model
 
-import java.util.Date
+import kotlin.time.Instant
 
 data class Message(
-    val id: String = "",
-    val conversationId: String = "",
-    val authorId: String = "",
-    val text: String = "",
-    val createdAt: Date? = null,
-    val updatedAt: Date? = null,
-    val deletedAt: Date? = null,
-    val silent: Boolean = false
+    val id: String,
+    val conversationId: String,
+    val senderId: String,
+    val type: MessageType,
+    val text: String? = null,
+    val createdAt: Instant,
+    val updatedAt: Instant? = null,
+    val deletedAt: Instant? = null,
 )
