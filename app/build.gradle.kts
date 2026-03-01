@@ -69,6 +69,10 @@ dependencies {
     implementation(libs.room.ktx)
     implementation(libs.kotlinx.serialization.core)
     implementation(libs.coil)
+    implementation(libs.kotlinx.datetime)
+
+    implementation(platform(libs.ktor.bom))
+    implementation(libs.bundles.ktor)
 
     testImplementation(libs.junit)
 

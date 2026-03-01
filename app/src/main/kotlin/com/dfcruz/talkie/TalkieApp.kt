@@ -2,6 +2,7 @@ package com.dfcruz.talkie
 
 import android.app.Application
 import com.dfcruz.talkie.data.database.databaseModule
+import com.dfcruz.talkie.data.network.networkModule
 import com.dfcruz.talkie.data.repository.repositoryModule
 import com.dfcruz.talkie.domain.domainModule
 import org.koin.android.ext.koin.androidContext
@@ -17,6 +18,7 @@ class TalkieApp : Application() {
             androidContext(this@TalkieApp)
             modules(appModule)
             modules(databaseModule)
+            modules(networkModule)
             modules(repositoryModule)
             modules(domainModule)
         }
