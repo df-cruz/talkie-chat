@@ -9,8 +9,6 @@ import kotlin.time.Instant
 data class MessageResponse(
     @SerialName("id")
     val id: String,
-    @SerialName("localId")
-    val localId: String,
     @SerialName("conversationId")
     val conversationId: String,
     @SerialName("senderId")
@@ -21,8 +19,8 @@ data class MessageResponse(
     val text: String?,
     @SerialName("serverCreatedAt")
     @Contextual val serverCreatedAt: Instant,
-    @SerialName("serverUpdatedAt")
-    @Contextual val serverUpdatedAt: Instant? = null,
-    @SerialName("serverDeletedAt")
-    @Contextual val serverDeletedAt: Instant? = null
+    @SerialName("updatedAt")
+    @Contextual val updatedAt: Instant? = null,
+    @SerialName("deletedAt")
+    @Contextual val deletedAt: Instant? = null
 )

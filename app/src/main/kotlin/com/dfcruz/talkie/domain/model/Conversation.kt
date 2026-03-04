@@ -8,7 +8,8 @@ data class Conversation(
     val name: String? = null,
     val avatarUrl: String? = null,
     val participants: List<User> = listOf(),
-    val createdAt: Instant,
+    val createdAt: Instant? = null,
+    val serverCreatedAt: Instant? = null,
     val updatedAt: Instant? = null,
     val deletedAt: Instant? = null,
 ) {

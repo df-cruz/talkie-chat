@@ -8,7 +8,8 @@ data class Message(
     val senderId: String,
     val type: MessageType,
     val text: String? = null,
-    val createdAt: Instant,
+    val createdAt: Instant? = null,
+    val serverCreatedAt: Instant? = null,
     val updatedAt: Instant? = null,
     val deletedAt: Instant? = null,
 )

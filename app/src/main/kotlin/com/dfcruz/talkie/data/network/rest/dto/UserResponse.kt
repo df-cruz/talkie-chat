@@ -6,17 +6,19 @@ import kotlinx.serialization.Serializable
 import kotlin.time.Instant
 
 @Serializable
-data class ConversationResponse(
+data class UserResponse(
     @SerialName("id")
     val id: String,
-    @SerialName("ownerId")
-    val ownerId: String,
+    @SerialName("phoneNumber")
+    val phoneNumber: String,
+    @SerialName("displayName")
+    val displayName: String,
     @SerialName("avatarUrl")
-    val avatarUrl: String? = null,
-    @SerialName("name")
-    val name: String,
-    @SerialName("participants")
-    val participants: List<UserResponse>,
+    val avatarUrl: String,
+    @SerialName("isOnline")
+    val isOnline: Boolean = false,
+    @SerialName("lastSeenAt")
+    @Contextual val lastSeenAt: Instant? = null,
     @SerialName("serverCreatedAt")
     @Contextual val serverCreatedAt: Instant,
     @SerialName("updatedAt")

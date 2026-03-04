@@ -23,8 +23,8 @@ data class ConversationEntity(
     @PrimaryKey val id: String,
     val ownerId: String,
     val name: String? = null,
-    val avatar: String? = null,
-    val createdAt: Instant,
+    val avatarUrl: String? = null,
+    val createdAt: Instant ? = null,
     val serverCreatedAt: Instant? = null,
     val updatedAt: Instant? = null,
     val deletedAt: Instant? = null

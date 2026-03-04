@@ -8,7 +8,9 @@ data class User(
     val phoneNumber: String,
     val avatarUrl: String? = null,
     val isOnline: Boolean = false,
-    val createdAt: Instant,
-    val updatedAt: Instant? = null,
     val lastSeenAt: Instant? = null,
+    val createdAt: Instant? = null,
+    val serverCreatedAt: Instant? = null,
+    val updatedAt: Instant? = null,
+    val deletedAt: Instant? = null,
 )

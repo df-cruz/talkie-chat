@@ -7,10 +7,10 @@ import kotlin.time.Instant
 
 @Serializable
 data class CreateMessageRequest(
-    @SerialName("localId")
-    val localId: String,
-    @SerialName("localCreatedAt")
-    @Contextual val localCreatedAt: Instant,
+    @SerialName("id")
+    val id: String,
+    @SerialName("createdAt")
+    @Contextual val createdAt: Instant,
     @SerialName("conversationId")
     val conversationId: String,
     @SerialName("type")
