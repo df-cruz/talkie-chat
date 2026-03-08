@@ -45,6 +45,15 @@ interface ConversationDao {
     suspend fun removeMember(conversationId: String, userId: String)
 
     @Transaction
+    suspend fun upsertConversations(
+        conversations: List<ConversationEntity>,
+        members: List<ConversationMemberEntity>
+    ) {
+        insert(conversations)
+        addMembers(members)
+    }
+
+    @Transaction
     suspend fun createConversationWithMembers(
         conversation: ConversationEntity,
         members: List<ConversationMemberEntity>

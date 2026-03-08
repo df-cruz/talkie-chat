@@ -10,7 +10,7 @@ data class CreateConversationRequest(
     @SerialName("id")
     val id: String,
     @SerialName("createdAt")
-    @Contextual val createdAt: Instant,
+    @Contextual val createdAt: Instant? = null,
     @SerialName("participants")
     val participants: List<UserRequest>,
     @SerialName("name")

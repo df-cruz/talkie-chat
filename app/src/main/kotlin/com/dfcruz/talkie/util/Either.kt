@@ -1,5 +1,7 @@
 package com.dfcruz.talkie.util
 
+import com.dfcruz.talkie.util.Either.Left
+import com.dfcruz.talkie.util.Either.Right
 import kotlin.coroutines.cancellation.CancellationException
 
 sealed class Either<out A, out B> {
@@ -33,14 +35,21 @@ sealed class Either<out A, out B> {
         }
     }
 
-    inline fun <C> fold(ifLeft: (A) -> C, ifRight: (B) -> C): C = when (this) {
-        is Right -> ifRight(value)
-        is Left -> ifLeft(value)
+    inline fun <C> fold(ifLeft: (A) -> C, ifRight: (B) -> C): C {
+        return when (this) {
+            is Left -> ifLeft(this.value)
+            is Right -> ifRight(this.value)
+        }
     }
+
+
+    inline fun <C> map(f: (B) -> C): Either<A, C> = flatMap { Right(f(it)) }
 
     fun orNull(): B? = fold({ null }, { it })
 
-    fun leftOrNull(): A? = fold({ it }, { null })
+    inline fun ifLeft(f: (A) -> Unit): Either<A, B> = fold({ f(it); Left(it) }, { Right(it) })
+
+    inline fun ifRight(f: (B) -> Unit): Either<A, B> = fold({ Left(it) }, { f(it); Right(it) })
 
     companion object {
         inline fun <R> catch(f: () -> R): Either<Throwable, R> =
@@ -50,7 +59,6 @@ sealed class Either<out A, out B> {
                 t.nonFatalOrThrow().left()
             }
     }
-
 }
 
 fun <A> A.left(): Either<A, Nothing> = Either.Left(this)
@@ -65,3 +73,29 @@ private fun isNonFatal(t: Throwable): Boolean =
         is VirtualMachineError, is ThreadDeath, is InterruptedException, is LinkageError, is CancellationException -> false
         else -> true
     }
+
+inline fun <A, B, C> Either<A, B>.flatMap(f: (right: B) -> Either<A, C>): Either<A, C> {
+    return when (this) {
+        is Right -> f(this.value)
+        is Left -> this
+    }
+}
+
+
+inline fun <A, B, C> Either<A, B>.handleErrorWith(f: (A) -> Either<C, B>): Either<C, B> {
+    return when (this) {
+        is Left -> f(this.value)
+        is Right -> this
+    }
+}
+
+inline infix fun <A, B> Either<A, B>.getOrElse(default: (A) -> B): B {
+    return when (this) {
+        is Left -> default(this.value)
+        is Right -> this.value
+    }
+}
+
+fun <A> identity(a: A): A = a
+
+fun <A, B> Either<A, Either<A, B>>.flatten(): Either<A, B> = flatMap(::identity)

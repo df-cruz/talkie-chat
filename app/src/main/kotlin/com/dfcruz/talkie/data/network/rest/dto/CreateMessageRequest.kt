@@ -10,11 +10,11 @@ data class CreateMessageRequest(
     @SerialName("id")
     val id: String,
     @SerialName("createdAt")
-    @Contextual val createdAt: Instant,
+    @Contextual val createdAt: Instant? = null,
     @SerialName("conversationId")
     val conversationId: String,
     @SerialName("type")
     val type: MessageType,
     @SerialName("text")
-    val text: String
+    val text: String? = null
 )

@@ -9,11 +9,13 @@ val repositoryModule = module {
     single<ConversationRepository> {
         ConversationRepositoryImpl(
             conversationDao = get(),
+            talkieService = get(),
         )
     }
     single<MessageRepository> {
         MessageRepositoryImpl(
             messageDao = get(),
+            talkieService = get(),
         )
     }
     single<UserRepository> {
