@@ -7,8 +7,8 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,6 +18,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
+import androidx.compose.material3.minimumInteractiveComponentSize
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,12 +30,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dfcruz.talkie.R
 import com.dfcruz.talkie.ui.component.TalkieTextField
 import com.dfcruz.talkie.ui.theme.TalkieTheme
+import com.dfcruz.talkie.util.compose.ThemePreview
 
 @Composable
 fun MessageComposer(
@@ -42,20 +45,19 @@ fun MessageComposer(
     onSendMessage: (String) -> Unit,
 ) {
     var textFieldValue by remember(text) { mutableStateOf(TextFieldValue(text = text)) }
+    val isSendVisible = textFieldValue.text.isNotEmpty()
 
     Surface(
-        modifier = modifier
-
+        modifier = modifier.fillMaxWidth(),
+        color = TalkieTheme.colors.surfaceContainer
     ) {
-        val textStyle = TalkieTheme.typography.bodyMedium
         TalkieTextField(
-            modifier = modifier
+            modifier = Modifier
                 .padding(vertical = 16.dp, horizontal = 16.dp)
-                .animateContentSize()
                 .fillMaxWidth()
                 .animateContentSize(),
             value = textFieldValue,
-            textStyle = textStyle,
+            textStyle = TalkieTheme.typography.bodyMedium,
             innerPadding = PaddingValues(
                 start = 16.dp,
                 top = 6.dp,
@@ -66,16 +68,19 @@ fun MessageComposer(
             trailingContent = {
                 Row(
                     modifier = Modifier.height(36.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     AnimatedVisibility(
-                        visible = !textFieldValue.text.isEmpty(),
+                        visible = isSendVisible,
                         enter = fadeIn(animationSpec = tween(durationMillis = 150)),
                         exit = fadeOut(animationSpec = tween(durationMillis = 150))
                     ) {
-                        SendMessageButton {
-                            onSendMessage(textFieldValue.text)
-                            textFieldValue = textFieldValue.copy("")
-                        }
+                        SendMessageButton(
+                            onClick = {
+                                onSendMessage(textFieldValue.text)
+                                textFieldValue = TextFieldValue()
+                            }
+                        )
                     }
                 }
             }
@@ -85,33 +90,50 @@ fun MessageComposer(
 
 @Composable
 private fun SendMessageButton(onClick: () -> Unit) {
+    val interactionSource = remember { MutableInteractionSource() }
+
     Box(
-        Modifier
+        modifier = Modifier
+            .minimumInteractiveComponentSize()
+            .size(36.dp)
             .clip(CircleShape)
-            .background(TalkieTheme.colors.inverseSurface)
-            .clickable { onClick() },
+            .background(TalkieTheme.colors.primary)
+            .clickable(
+                onClick = onClick,
+                interactionSource = interactionSource,
+                indication = ripple(bounded = true)
+            ),
         contentAlignment = Alignment.Center
     ) {
         Icon(
             modifier = Modifier
-                .padding(8.dp)
                 .size(20.dp)
                 .rotate(90f),
             painter = painterResource(R.drawable.arrow_back),
-            contentDescription = null,
+            contentDescription = stringResource(R.string.send_message),
             tint = TalkieTheme.colors.inverseOnSurface
         )
     }
 }
 
-@Preview
 @Composable
-fun MessageComposerPreview() {
-    var value by remember { mutableStateOf("") }
+@ThemePreview
+fun MessageComposerEmptyPreview() {
     TalkieTheme {
-        Column() {
-            MessageComposer(text = value) {}
-            MessageComposer(text = "3") {}
-        }
+        MessageComposer(
+            text = "",
+            onSendMessage = {}
+        )
+    }
+}
+
+@Composable
+@ThemePreview
+fun MessageComposerWithTextPreview() {
+    TalkieTheme {
+        MessageComposer(
+            text = "Hey, how are you doing?",
+            onSendMessage = {}
+        )
     }
 }

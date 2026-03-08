@@ -1,6 +1,9 @@
 package com.dfcruz.talkie.ui.feature.conversationslist.component
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,8 +17,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -32,10 +38,25 @@ import com.dfcruz.talkie.util.compose.ThemePreview
 fun ConversationItem(
     modifier: Modifier = Modifier,
     conversation: ConversationUiModel,
+    onClick: () -> Unit = {},
+    onLongClick: () -> Unit = {},
 ) {
+    val haptics = LocalHapticFeedback.current
+    val interactionSource = remember { MutableInteractionSource() }
+    val localIndication = LocalIndication.current
+
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .combinedClickable(
+                interactionSource = interactionSource,
+                indication = localIndication,
+                onClick = onClick,
+                onLongClick = {
+                    haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+                    onLongClick()
+                }
+            )
             .padding(vertical = 8.dp, horizontal = 16.dp),
     ) {
         Avatar(

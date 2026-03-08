@@ -70,7 +70,7 @@ class ChatScreenViewModel(
                     MessageUiModel(
                         id = message.id,
                         content = MessageContent.Text(message.text.orEmpty()),
-                        createdAt = formatter.format(message.createdAt),
+                        createdAt = formatter.format(message.createdAt?.toEpochMilliseconds()),
                         author = MessageAuthor.CurrentUser,
                         groupPosition = MessageGroupPosition.First
                     )
