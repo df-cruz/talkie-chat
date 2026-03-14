@@ -26,6 +26,8 @@ data class ConversationEntity(
     val avatarUrl: String? = null,
     val createdAt: Instant ? = null,
     val serverCreatedAt: Instant? = null,
+    val isPinned: Boolean = false,
+    val isMuted: Boolean = false,
     val updatedAt: Instant? = null,
     val deletedAt: Instant? = null
 )

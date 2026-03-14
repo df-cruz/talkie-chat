@@ -44,6 +44,12 @@ interface ConversationDao {
     @Query("DELETE FROM conversation_members WHERE conversationId = :conversationId AND userId = :userId")
     suspend fun removeMember(conversationId: String, userId: String)
 
+    @Query("UPDATE conversations SET isPinned = :isPinned WHERE id = :conversationId")
+    suspend fun pinConversation(conversationId: String, isPinned: Boolean)
+
+    @Query("UPDATE conversations SET isMuted = :isMuted WHERE id = :conversationId")
+    suspend fun muteConversation(conversationId: String, isMuted: Boolean)
+
     @Transaction
     suspend fun upsertConversations(
         conversations: List<ConversationEntity>,

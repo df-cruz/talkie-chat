@@ -11,6 +11,8 @@ interface TalkieService {
     suspend fun getConversationById(conversationId: String): Either<Throwable, ConversationResponse>
     suspend fun createConversation(conversation: CreateConversationRequest): Either<Throwable, Unit>
     suspend fun deleteConversation(conversationId: String): Either<Throwable, Unit>
+    suspend fun pinConversation(conversationId: String, pin: Boolean): Either<Throwable, Unit>
+    suspend fun muteConversation(conversationId: String, mute: Boolean): Either<Throwable, Unit>
     suspend fun getMessagesByConversation(conversationId: String): Either<Throwable, List<MessageResponse>>
     suspend fun getMessageById(
         conversationId: String,

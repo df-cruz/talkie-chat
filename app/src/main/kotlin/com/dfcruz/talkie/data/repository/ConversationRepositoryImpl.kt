@@ -1,7 +1,6 @@
 package com.dfcruz.talkie.data.repository
 
 import com.dfcruz.talkie.data.database.dao.ConversationDao
-import com.dfcruz.talkie.data.database.dao.UserDao
 import com.dfcruz.talkie.data.database.entity.ConversationMemberEntity
 import com.dfcruz.talkie.data.mapping.toDomain
 import com.dfcruz.talkie.data.mapping.toEntity
@@ -94,6 +93,50 @@ class ConversationRepositoryImpl(
 
     override suspend fun removeUserFromConversation(conversationId: String, userId: String) {
         Either.catch { conversationDao.removeMember(conversationId, userId) }
+    }
+
+    override suspend fun pinConversation(conversationId: String) {
+        Either.catch {
+            conversationDao.pinConversation(
+                conversationId = conversationId,
+                isPinned = true
+            )
+        }.ifRight {
+            talkieService.pinConversation(conversationId, true)
+        }
+    }
+
+    override suspend fun unpinConversation(conversationId: String) {
+        Either.catch {
+            conversationDao.pinConversation(
+                conversationId = conversationId,
+                isPinned = false
+            )
+        }.ifRight {
+            talkieService.pinConversation(conversationId, false)
+        }
+    }
+
+    override suspend fun muteConversation(conversationId: String) {
+        Either.catch {
+            conversationDao.muteConversation(
+                conversationId = conversationId,
+                isMuted = true
+            )
+        }.ifRight {
+            talkieService.muteConversation(conversationId, true)
+        }
+    }
+
+    override suspend fun unmuteConversation(conversationId: String) {
+        Either.catch {
+            conversationDao.muteConversation(
+                conversationId = conversationId,
+                isMuted = false
+            )
+        }.ifRight {
+            talkieService.muteConversation(conversationId, false)
+        }
     }
 
 }
