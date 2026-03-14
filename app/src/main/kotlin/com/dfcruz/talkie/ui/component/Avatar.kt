@@ -59,13 +59,15 @@ fun Avatar(
 enum class AvatarSize(val dp: Dp) {
     Small(28.dp),
     Medium(40.dp),
-    Large(56.dp);
+    Large(56.dp),
+    ExtraLarge(96.dp);
 
     @Composable
     fun textStyle(): TextStyle = when (this) {
         Small -> TalkieTheme.typography.labelMedium
         Medium -> TalkieTheme.typography.titleMedium
         Large -> TalkieTheme.typography.headlineSmall
+        ExtraLarge -> TalkieTheme.typography.headlineMedium
     }
 }
 
@@ -80,6 +82,7 @@ private fun AvatarInitialPreview() {
             Avatar(name = "Alice Johnson", size = AvatarSize.Small)
             Avatar(name = "Mia Chen", size = AvatarSize.Medium)
             Avatar(name = "Bob Smith", size = AvatarSize.Large)
+            Avatar(name = "Fade Smith", size = AvatarSize.ExtraLarge)
         }
     }
 }

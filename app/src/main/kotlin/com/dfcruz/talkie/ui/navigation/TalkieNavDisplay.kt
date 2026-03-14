@@ -13,6 +13,8 @@ import com.dfcruz.talkie.ui.feature.conversationslist.ConversationListNavRoute
 import com.dfcruz.talkie.ui.feature.conversationslist.ConversationListScreen
 import com.dfcruz.talkie.ui.feature.createconversation.CreateConversationNavRoute
 import com.dfcruz.talkie.ui.feature.createconversation.CreateConversationScreen
+import com.dfcruz.talkie.ui.feature.user.UserProfileNavRoute
+import com.dfcruz.talkie.ui.feature.user.UserProfileScreen
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -50,6 +52,14 @@ fun TalkieNavDisplay(
                         backStack.removeLastOrNull()
                         backStack.add(ChatNavRoute(id))
                     }
+                )
+            }
+            entry<UserProfileNavRoute> {
+                UserProfileScreen(
+                    onOpenChat = {
+                        backStack.removeLastOrNull()
+                    },
+                    onNavigateBack = { backStack.removeLastOrNull() },
                 )
             }
         }

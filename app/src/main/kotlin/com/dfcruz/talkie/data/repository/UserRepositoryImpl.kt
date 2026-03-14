@@ -5,10 +5,16 @@ import com.dfcruz.talkie.data.mapping.toDomain
 import com.dfcruz.talkie.data.mapping.toEntity
 import com.dfcruz.talkie.domain.model.User
 import com.dfcruz.talkie.domain.repository.UserRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class UserRepositoryImpl(
     private val userDao: UserDao,
 ) : UserRepository {
+
+    override fun getUserFlow(userId: String): Flow<User> {
+        return userDao.getUserFlow(userId).map { it.toDomain() }
+    }
 
     override suspend fun getUser(userId: String): User? {
         return userDao.getUser(userId)?.toDomain()

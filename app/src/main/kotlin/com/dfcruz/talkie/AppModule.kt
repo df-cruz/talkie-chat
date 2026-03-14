@@ -6,6 +6,7 @@ import com.dfcruz.talkie.system.ContactsProvider
 import com.dfcruz.talkie.ui.feature.chat.ChatScreenViewModel
 import com.dfcruz.talkie.ui.feature.conversationslist.ConversationListViewModel
 import com.dfcruz.talkie.ui.feature.createconversation.CreateConversationViewModel
+import com.dfcruz.talkie.ui.feature.user.UserProfileViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModelOf
@@ -15,6 +16,7 @@ val appModule = module {
     viewModelOf(::ConversationListViewModel)
     viewModelOf(::ChatScreenViewModel)
     viewModelOf(::CreateConversationViewModel)
+    viewModelOf(::UserProfileViewModel)
 
     single { ContactsProvider(androidApplication()) }
     single<ConnectivityInfoProvider> { ConnectivityInfoProviderImpl(androidContext()) }
